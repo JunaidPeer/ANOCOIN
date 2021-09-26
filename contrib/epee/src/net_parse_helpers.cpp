@@ -30,8 +30,8 @@
 #include "reg_exp_definer.h"
 #include <boost/lexical_cast.hpp>
 
-#undef SCALA_DEFAULT_LOG_CATEGORY
-#define SCALA_DEFAULT_LOG_CATEGORY "net"
+#undef ANOCOIN_DEFAULT_LOG_CATEGORY
+#define ANOCOIN_DEFAULT_LOG_CATEGORY "net"
 
 namespace epee
 {
