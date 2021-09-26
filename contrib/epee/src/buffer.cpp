@@ -1,4 +1,4 @@
-// Copyright (c) 2018, The Monero Project
+// Copyright (c) 2021-2021, The ANOCOIN Network Project
 // 
 // All rights reserved.
 // 
@@ -29,8 +29,8 @@
 #include <string.h>
 #include "net/buffer.h"
 
-#undef SCALA_DEFAULT_LOG_CATEGORY
-#define SCALA_DEFAULT_LOG_CATEGORY "net.buffer"
+#undef ANOCOIN_DEFAULT_LOG_CATEGORY
+#define ANOCOIN_DEFAULT_LOG_CATEGORY "net.buffer"
 
 namespace epee
 {
