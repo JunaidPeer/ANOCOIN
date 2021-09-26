@@ -1,5 +1,5 @@
 // Copyright (c) 2014-2020, The Monero Project
-// Copyright (c) 2018-2021, The Scala Network Project
+// Copyright (c) 2021-2021, The ANOCOIN Network Project
 // 
 // All rights reserved.
 // 
@@ -56,8 +56,8 @@ using namespace epee;
 #include "rpc/core_rpc_server_commands_defs.h"
 #include "daemonizer/daemonizer.h"
 
-#undef SCALA_DEFAULT_LOG_CATEGORY
-#define SCALA_DEFAULT_LOG_CATEGORY "wallet.rpc"
+#undef ANOCOIN_DEFAULT_LOG_CATEGORY
+#define ANOCOIN_DEFAULT_LOG_CATEGORY "wallet.rpc"
 
 #define DEFAULT_AUTO_REFRESH_PERIOD 20 // seconds
 
@@ -69,7 +69,7 @@ namespace
   const command_line::arg_descriptor<std::string> arg_wallet_dir = {"wallet-dir", "Directory for newly created wallets"};
   const command_line::arg_descriptor<bool> arg_prompt_for_password = {"prompt-for-password", "Prompts for password when not provided", false};
 
-  constexpr const char default_rpc_username[] = "scala";
+  constexpr const char default_rpc_username[] = "anocoin";
 
   boost::optional<tools::password_container> password_prompter(const char *prompt, bool verify)
   {
@@ -226,7 +226,7 @@ namespace tools
           string_encoding::base64_encode(rand_128bit.data(), rand_128bit.size())
         );
 
-        std::string temp = "scala-wallet-rpc." + bind_port + ".login";
+        std::string temp = "anocoin-wallet-rpc." + bind_port + ".login";
         rpc_login_file = tools::private_file::create(temp);
         if (!rpc_login_file.handle())
         {
@@ -277,7 +277,7 @@ namespace tools
     tools::wallet2::BackgroundMiningSetupType setup = m_wallet->setup_background_mining();
     if (setup == tools::wallet2::BackgroundMiningNo)
     {
-      MLOG_RED(el::Level::Warning, "Background mining not enabled. Run \"set setup-background-mining 1\" in scala-wallet-cli to change.");
+      MLOG_RED(el::Level::Warning, "Background mining not enabled. Run \"set setup-background-mining 1\" in anocoin-wallet-cli to change.");
       return;
     }
 
@@ -302,8 +302,8 @@ namespace tools
     {
       MINFO("The daemon is not set up to background mine.");
       MINFO("With background mining enabled, the daemon will mine when idle and not on battery.");
-      MINFO("Enabling this supports the network you are using, and makes you eligible for receiving new scala");
-      MINFO("Set setup-background-mining to 1 in scala-wallet-cli to change.");
+      MINFO("Enabling this supports the network you are using, and makes you eligible for receiving new anocoin");
+      MINFO("Set setup-background-mining to 1 in anocoin-wallet-cli to change.");
       return;
     }
 
@@ -781,7 +781,7 @@ namespace tools
           }
           if (addresses.empty())
           {
-            er.message = std::string("No Scala address found at ") + url;
+            er.message = std::string("No anocoin address found at ") + url;
             return {};
           }
           return addresses[0];
@@ -2044,7 +2044,7 @@ namespace tools
         }
         if (addresses.empty())
         {
-          er.message = std::string("No Scala address found at ") + url;
+          er.message = std::string("No anocoin address found at ") + url;
           return {};
         }
         return addresses[0];
@@ -2862,7 +2862,7 @@ namespace tools
         }
         if (addresses.empty())
         {
-          er.message = std::string("No Scala address found at ") + url;
+          er.message = std::string("No anocoin address found at ") + url;
           return {};
         }
         return addresses[0];
@@ -2916,7 +2916,7 @@ namespace tools
           }
           if (addresses.empty())
           {
-            er.message = std::string("No Scala address found at ") + url;
+            er.message = std::string("No anocoin address found at ") + url;
             return {};
           }
           return addresses[0];
@@ -4235,7 +4235,7 @@ namespace tools
             }
             if (addresses.empty())
             {
-              er.message = std::string("No Scala address found at ") + url;
+              er.message = std::string("No anocoin address found at ") + url;
               return {};
             }
             address = addresses[0];
@@ -4373,7 +4373,7 @@ namespace tools
   bool wallet_rpc_server::on_get_version(const wallet_rpc::COMMAND_RPC_GET_VERSION::request& req, wallet_rpc::COMMAND_RPC_GET_VERSION::response& res, epee::json_rpc::error& er, const connection_context *ctx)
   {
     res.version = WALLET_RPC_VERSION;
-    res.release = SCALA_VERSION_IS_RELEASE;
+    res.release = ANOCOIN_VERSION_IS_RELEASE;
     return true;
   }
   //------------------------------------------------------------------------------------------------------------------------------
@@ -4596,12 +4596,12 @@ int main(int argc, char** argv) {
   bool should_terminate = false;
   std::tie(vm, should_terminate) = wallet_args::main(
     argc, argv,
-    "scala-wallet-rpc [--wallet-file=<file>|--generate-from-json=<file>|--wallet-dir=<directory>] [--rpc-bind-port=<port>]",
-    tools::wallet_rpc_server::tr("This is the RPC scala wallet. It needs to connect to a scala\ndaemon to work correctly."),
+    "anocoin-wallet-rpc [--wallet-file=<file>|--generate-from-json=<file>|--wallet-dir=<directory>] [--rpc-bind-port=<port>]",
+    tools::wallet_rpc_server::tr("This is the RPC anocoin wallet. It needs to connect to a anocoin\ndaemon to work correctly."),
     desc_params,
     po::positional_options_description(),
     [](const std::string &s, bool emphasis){ epee::set_console_color(emphasis ? epee::console_color_white : epee::console_color_default, true); std::cout << s << std::endl; if (emphasis) epee::reset_console_color(); },
-    "scala-wallet-rpc.log",
+    "anocoin-wallet-rpc.log",
     true
   );
   if (!vm)
