@@ -1,5 +1,5 @@
 ---
-name: "scala-osx-0.17"
+name: "anocoin-osx-0.17"
 enable_cache: true
 suites:
 - "bionic"
@@ -24,8 +24,8 @@ packages:
 - "python-dev"
 - "python-setuptools"
 remotes:
-- "url": "https://github.com/scala-project/scala.git"
-  "dir": "scala"
+- "url": "https://github.com/anocoinanocoinanocoin-project/anocoinanocoin.git"
+  "dir": "anocoin"
 files:
 - "MacOSX10.11.sdk.tar.gz"
 script: |
