@@ -2,8 +2,8 @@
 
 DIR=$(realpath $(dirname $0))
 
-echo "Checking scalad..."
-scalad=""
+echo "Checking anocoind..."
+anocoind=""
 for dir in \
   . \
   "$DIR" \
