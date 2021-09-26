@@ -1,5 +1,5 @@
 ---
-name: "scala-freebsd-0.17"
+name: "anocoin-freebsd-0.17"
 enable_cache: true
 suites:
 - "bionic"
@@ -32,8 +32,8 @@ packages:
 - "libprotobuf-dev"
 - "python3-zmq"
 remotes:
-- "url": "https://github.com/scala-project/scala.git"
-  "dir": "scala"
+- "url": "https://github.com/anocoin-project/anocoi.git"
+  "dir": "anocoin"
 files: []
 script: |
 
