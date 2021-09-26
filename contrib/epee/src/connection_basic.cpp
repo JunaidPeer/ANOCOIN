@@ -1,9 +1,9 @@
 /// @file
-/// @author rfree (current maintainer in scala.cc project)
+/// @author rfree (current maintainer in ANOCOIN project)
 /// @brief base for connection, contains e.g. the ratelimit hooks
 
 // Copyright (c) 2014-2020, The Monero Project
-// Copyright (c) 2018-2021, The Scala Network Project
+// Copyright (c) 2021-2021, The ANOCOIN Network Project
 // 
 // All rights reserved.
 // 
@@ -54,8 +54,8 @@
 #define GET_IO_SERVICE(s) ((s).get_io_service())
 #endif
 
-#undef SCALA_DEFAULT_LOG_CATEGORY
-#define SCALA_DEFAULT_LOG_CATEGORY "net.conn"
+#undef ANOCOIN_DEFAULT_LOG_CATEGORY
+#define ANOCOIN_DEFAULT_LOG_CATEGORY "net.conn"
 
 // ################################################################################################
 // local (TU local) headers
