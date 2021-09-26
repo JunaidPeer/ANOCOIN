@@ -38,8 +38,8 @@
 #include "net/net_helper.h"
 #include "net/net_ssl.h"
 
-#undef SCALA_DEFAULT_LOG_CATEGORY
-#define SCALA_DEFAULT_LOG_CATEGORY "net.ssl"
+#undef ANOCOIN_DEFAULT_LOG_CATEGORY
+#define ANOCOIN_DEFAULT_LOG_CATEGORY "net.ssl"
 
 // openssl genrsa -out /tmp/KEY 4096
 // openssl req -new -key /tmp/KEY -out /tmp/REQ
