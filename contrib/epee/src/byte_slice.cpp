@@ -1,4 +1,4 @@
-// Copyright (c) 2019-2020, The Monero Project
+// Copyright (c) 2021-2021, The ANOCOIN Network Project
 //
 // All rights reserved.
 //
