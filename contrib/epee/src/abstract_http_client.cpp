@@ -3,8 +3,8 @@
 #include "net/net_parse_helpers.h"
 #include "misc_log_ex.h"
 
-#undef SCALA_DEFAULT_LOG_CATEGORY
-#define SCALA_DEFAULT_LOG_CATEGORY "net.http"
+#undef ANOCOIN_DEFAULT_LOG_CATEGORY
+#define ANOCOIN_DEFAULT_LOG_CATEGORY "net.http"
 
 namespace epee
 {
