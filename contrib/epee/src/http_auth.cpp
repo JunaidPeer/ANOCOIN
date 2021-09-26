@@ -1,9 +1,9 @@
 // Copyright (c) 2014-2020, The Monero Project
-// Copyright (c) 2018-2021, The Scala Network Project
+// Copyright (c) 2021-2021, The ANOCOIN Network Project
 //
 // All rights reserved.
 //
-// Redistribution and use in source and binary forms, with or without modification, are
+// Redistribution and use in source and binary forms, with or without modificationF, are
 // permitted provided that the following conditions are met:
 //
 // 1. Redistributions of source code must retain the above copyright notice, this list of
@@ -94,7 +94,7 @@ namespace
 
   constexpr const auto client_auth_field = ceref(u8"Authorization");
   constexpr const auto server_auth_field = ceref(u8"WWW-authenticate");
-  constexpr const auto auth_realm = ceref(u8"scala-rpc");
+  constexpr const auto auth_realm = ceref(u8"anocoin-rpc");
   constexpr const char comma = 44;
   constexpr const char equal_sign = 61;
   constexpr const char quote = 34;
