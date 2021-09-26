@@ -1,5 +1,5 @@
 # Copyright (c) 2014-2020, The Monero Project
-# Copyright (c) 2018-2021, The Scala Network Project
+# Copyright (c) 2021-2021, The ANOCOIN Network Project
 # 
 # All rights reserved.
 # 
@@ -30,7 +30,7 @@
 set(EPEE_INCLUDE_DIR_BASE "${CMAKE_CURRENT_SOURCE_DIR}/../include")
 
 # Add headers to the file list, to be able to search for them and autosave in IDEs.
-scala_find_all_headers(EPEE_HEADERS_PUBLIC "${EPEE_INCLUDE_DIR_BASE}")
+anocoin_find_all_headers(EPEE_HEADERS_PUBLIC "${EPEE_INCLUDE_DIR_BASE}")
 
 add_library(epee STATIC byte_slice.cpp byte_stream.cpp hex.cpp abstract_http_client.cpp http_auth.cpp mlog.cpp net_helper.cpp net_utils_base.cpp string_tools.cpp
     wipeable_string.cpp levin_base.cpp memwipe.c connection_basic.cpp network_throttle.cpp network_throttle-detail.cpp mlocker.cpp buffer.cpp net_ssl.cpp
