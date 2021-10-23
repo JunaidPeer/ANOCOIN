@@ -1,5 +1,5 @@
 // Copyright (c) 2014-2020, The Monero Project
-// Copyright (c) 2018-2021, The Scala Network Project
+// Copyright (c) 2018-2021, The ANOCOIN Network Project
 // 
 // All rights reserved.
 // 
@@ -97,8 +97,8 @@ using namespace std;
 using namespace crypto;
 using namespace cryptonote;
 
-#undef SCALA_DEFAULT_LOG_CATEGORY
-#define SCALA_DEFAULT_LOG_CATEGORY "wallet.wallet2"
+#undef ANOCOIN_DEFAULT_LOG_CATEGORY
+#define ANOCOIN_DEFAULT_LOG_CATEGORY "wallet.wallet2"
 
 // used to choose when to stop adding outputs to a tx
 #define APPROXIMATE_INPUT_BYTES 80
@@ -8531,7 +8531,7 @@ void wallet2::get_outs(std::vector<std::vector<tools::wallet2::get_outs_entry>> 
           [](const get_outputs_out &a, const get_outputs_out &b) { return a.index < b.index; });
     }
 
-    if (ELPP->vRegistry()->allowed(el::Level::Debug, SCALA_DEFAULT_LOG_CATEGORY))
+    if (ELPP->vRegistry()->allowed(el::Level::Debug, ANOCOIN_DEFAULT_LOG_CATEGORY))
     {
       std::map<uint64_t, std::set<uint64_t>> outs;
       for (const auto &i: req.outputs)
@@ -9281,7 +9281,7 @@ bool wallet2::light_wallet_login(bool &new_address)
   m_daemon_rpc_mutex.lock();
   bool connected = invoke_http_json("/login", request, response, rpc_timeout, "POST");
   m_daemon_rpc_mutex.unlock();
-  // MyScala doesn't send any status message. OpenScala does. 
+  // MyAnocoin doesn't send any status message. 
   m_light_wallet_connected  = connected && (response.status.empty() || response.status == "success");
   new_address = response.new_address;
   MDEBUG("Status: " << response.status);
@@ -9322,9 +9322,9 @@ void wallet2::light_wallet_get_unspent_outs()
   oreq.amount = "0";
   oreq.address = get_account().get_public_address_str(m_nettype);
   oreq.view_key = string_tools::pod_to_hex(get_account().get_keys().m_view_secret_key);
-  // openScala specific
+  // openAnoCoin specific
   oreq.dust_threshold = boost::lexical_cast<std::string>(::config::DEFAULT_DUST_THRESHOLD);
-  // below are required by openScala api - but are not used.
+  // below are required by openAnocoin  api - but are not used.
   oreq.mixin = 0;
   oreq.use_dust = true;
 
@@ -9495,7 +9495,7 @@ void wallet2::light_wallet_get_address_txs()
   bool r = invoke_http_json("/get_address_txs", ireq, ires, rpc_timeout, "POST");
   m_daemon_rpc_mutex.unlock();
   THROW_WALLET_EXCEPTION_IF(!r, error::no_connection_to_daemon, "get_address_txs");
-  //OpenScala sends status=success, Myscala doesn't. 
+  //OpenAnocoin sends status=success, MyAnocoin doesn't. 
   THROW_WALLET_EXCEPTION_IF((!ires.status.empty() && ires.status != "success"), error::no_connection_to_daemon, "get_address_txs");
 
   
@@ -9663,7 +9663,7 @@ void wallet2::light_wallet_get_address_txs()
 
   // Calculate wallet balance
   m_light_wallet_balance = ires.total_received-wallet_total_sent;
-  // MyScala doesn't send unlocked balance
+  // MyAnocoin doesn't send unlocked balance
   if(ires.total_received_unlocked > 0)
     m_light_wallet_unlocked_balance = ires.total_received_unlocked-wallet_total_sent;
   else
@@ -9712,7 +9712,7 @@ bool wallet2::light_wallet_key_image_is_ours(const crypto::key_image& key_image,
   crypto::key_image calculated_key_image;
   cryptonote::keypair in_ephemeral;
   
-  // Subaddresses aren't supported in myscala/openscala yet. Roll out the original scheme:
+  // Subaddresses aren't supported in myAnocoin/openAnocoin yet. Roll out the original scheme:
   //   compute D = a*R
   //   compute P = Hs(D || i)*G + B
   //   compute x = Hs(D || i) + b      (and check if P==x*G)
