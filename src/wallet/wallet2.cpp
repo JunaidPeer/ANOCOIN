@@ -106,12 +106,12 @@ using namespace cryptonote;
 // used to target a given block weight (additional outputs may be added on top to build fee)
 #define TX_WEIGHT_TARGET(bytes) (bytes*2/3)
 
-#define UNSIGNED_TX_PREFIX "Scala unsigned tx set\005"
-#define SIGNED_TX_PREFIX "Scala signed tx set\005"
-#define MULTISIG_UNSIGNED_TX_PREFIX "Scala multisig unsigned tx set\001"
+#define UNSIGNED_TX_PREFIX "Anocoin unsigned tx set\005"
+#define SIGNED_TX_PREFIX "Anocoin signed tx set\005"
+#define MULTISIG_UNSIGNED_TX_PREFIX "Anocoin multisig unsigned tx set\001"
 
 #define RECENT_OUTPUT_RATIO (0.5) // 50% of outputs are from the recent zone
-#define RECENT_OUTPUT_DAYS (1.8) // last 1.8 day makes up the recent zone (taken from scalalink.pdf, Miller et al)
+#define RECENT_OUTPUT_DAYS (1.8) // last 1.8 day makes up the recent zone (taken from anocoinlink.pdf, Miller et al)
 #define RECENT_OUTPUT_ZONE ((time_t)(RECENT_OUTPUT_DAYS * 86400))
 #define RECENT_OUTPUT_BLOCKS (RECENT_OUTPUT_DAYS * 720)
 
@@ -122,11 +122,11 @@ using namespace cryptonote;
 #define SUBADDRESS_LOOKAHEAD_MAJOR 50
 #define SUBADDRESS_LOOKAHEAD_MINOR 200
 
-#define KEY_IMAGE_EXPORT_FILE_MAGIC "Scala key image export\003"
+#define KEY_IMAGE_EXPORT_FILE_MAGIC "Anocoin key image export\003"
 
-#define MULTISIG_EXPORT_FILE_MAGIC "Scala multisig export\001"
+#define MULTISIG_EXPORT_FILE_MAGIC "Anocoin multisig export\001"
 
-#define OUTPUT_EXPORT_FILE_MAGIC "Scala output export\004"
+#define OUTPUT_EXPORT_FILE_MAGIC "Anocoin output export\004"
 
 #define SEGREGATION_FORK_HEIGHT 99999999
 #define TESTNET_SEGREGATION_FORK_HEIGHT 99999999
@@ -148,7 +148,7 @@ using namespace cryptonote;
 static const std::string MULTISIG_SIGNATURE_MAGIC = "SigMultisigPkV1";
 static const std::string MULTISIG_EXTRA_INFO_MAGIC = "MultisigxV1";
 
-static const std::string ASCII_OUTPUT_MAGIC = "ScalaAsciiDataV1";
+static const std::string ASCII_OUTPUT_MAGIC = "AnocoinAsciiDataV1";
 
 boost::mutex tools::wallet2::default_daemon_address_lock;
 std::string tools::wallet2::default_daemon_address = "";
@@ -158,7 +158,7 @@ namespace
   std::string get_default_ringdb_path()
   {
     boost::filesystem::path dir = tools::get_default_data_dir();
-    // remove .bitscala, replace with .shared-ringdb
+    // remove .bitanocoin, replace with .shared-ringdb
     dir = dir.remove_filename();
     dir /= ".shared-ringdb";
     return dir.string();
@@ -1844,8 +1844,8 @@ void wallet2::scan_output(const cryptonote::transaction &tx, bool miner_tx, cons
     if (!m_encrypt_keys_after_refresh)
     {
       boost::optional<epee::wipeable_string> pwd = m_callback->on_get_password(pool ? "output found in pool" : "output received");
-      THROW_WALLET_EXCEPTION_IF(!pwd, error::password_needed, tr("Password is needed to compute key image for incoming scala"));
-      THROW_WALLET_EXCEPTION_IF(!verify_password(*pwd), error::password_needed, tr("Invalid password: password is needed to compute key image for incoming scala"));
+      THROW_WALLET_EXCEPTION_IF(!pwd, error::password_needed, tr("Password is needed to compute key image for incoming anocoin"));
+      THROW_WALLET_EXCEPTION_IF(!verify_password(*pwd), error::password_needed, tr("Invalid password: password is needed to compute key image for incoming anocoin"));
       decrypt_keys(*pwd);
       m_encrypt_keys_after_refresh = *pwd;
     }
@@ -3346,8 +3346,8 @@ void wallet2::refresh(bool trusted_daemon, uint64_t start_height, uint64_t & blo
 
   if(m_light_wallet) {
 
-    // MyScala get_address_info needs to be called occasionally to trigger wallet sync.
-    // This call is not really needed for other purposes and can be removed if myscala changes their backend.
+    // MyAnocoin get_address_info needs to be called occasionally to trigger wallet sync.
+    // This call is not really needed for other purposes and can be removed if myanocoin changes their backend.
     tools::COMMAND_RPC_GET_ADDRESS_INFO::response res;
 
     // Get basic info
@@ -6588,7 +6588,7 @@ void wallet2::commit_tx(pending_tx& ptx)
       const boost::lock_guard<boost::recursive_mutex> lock{m_daemon_rpc_mutex};
       bool r = epee::net_utils::invoke_http_json("/submit_raw_tx", oreq, ores, *m_http_client, rpc_timeout, "POST");
       THROW_WALLET_EXCEPTION_IF(!r, error::no_connection_to_daemon, "submit_raw_tx");
-      // MyScala and OpenScala use different status strings
+      // MyAnocoin and OpenAnocoin use different status strings
       THROW_WALLET_EXCEPTION_IF(ores.status != "OK" && ores.status != "success" , error::tx_rejected, ptx.tx, get_rpc_status(ores.status), ores.error);
     }
   }
@@ -7967,7 +7967,7 @@ void wallet2::light_wallet_get_outs(std::vector<std::vector<tools::wallet2::get_
   size_t light_wallet_requested_outputs_count = (size_t)((fake_outputs_count + 1) * 1.5 + 1);
   
   // Amounts to ask for
-  // MyScala api handle amounts and fees as strings
+  // MyAnocoin api handle amounts and fees as strings
   for(size_t idx: selected_transfers) {
     const uint64_t ask_amount = m_transfers[idx].is_rct() ? 0 : m_transfers[idx].amount();
     std::ostringstream amount_ss;
@@ -13618,7 +13618,7 @@ std::string wallet2::make_uri(const std::string &address, const std::string &pay
     }
   }
 
-  std::string uri = "scala:" + address;
+  std::string uri = "anocoin:" + address;
   unsigned int n_fields = 0;
 
   if (!payment_id.empty())
@@ -13647,9 +13647,9 @@ std::string wallet2::make_uri(const std::string &address, const std::string &pay
 //----------------------------------------------------------------------------------------------------
 bool wallet2::parse_uri(const std::string &uri, std::string &address, std::string &payment_id, uint64_t &amount, std::string &tx_description, std::string &recipient_name, std::vector<std::string> &unknown_parameters, std::string &error)
 {
-  if (uri.substr(0, 7) != "scala:")
+  if (uri.substr(0, 7) != "anocoin:")
   {
-    error = std::string("URI has wrong scheme (expected \"scala:\"): ") + uri;
+    error = std::string("URI has wrong scheme (expected \"anocoin:\"): ") + uri;
     return false;
   }
 
@@ -13921,9 +13921,9 @@ uint64_t wallet2::get_segregation_fork_height() const
 
   if (m_use_dns && !m_offline)
   {
-    // All four ScalaPulse domains have DNSSEC on and valid
+    // All four AnocoinPulse domains have DNSSEC on and valid
     static const std::vector<std::string> dns_urls = {
-        "seg-heights-pulse.scalaproject.io"
+        "seg-heights-pulse.anocoinproject.io"
     };
 
     const uint64_t current_height = get_blockchain_current_height();
@@ -13970,7 +13970,7 @@ mms::multisig_wallet_state wallet2::get_multisig_wallet_state() const
   state.num_transfer_details = m_transfers.size();
   if (state.multisig)
   {
-    THROW_WALLET_EXCEPTION_IF(!m_original_keys_available, error::wallet_internal_error, "MMS use not possible because own original Scala address not available");
+    THROW_WALLET_EXCEPTION_IF(!m_original_keys_available, error::wallet_internal_error, "MMS use not possible because own original Anocoin address not available");
     state.address = m_original_address;
     state.view_secret_key = m_original_view_secret_key;
   }
