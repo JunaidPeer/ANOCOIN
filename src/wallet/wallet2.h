@@ -1,5 +1,5 @@
 // Copyright (c) 2014-2020, The Monero Project
-// Copyright (c) 2018-2021, The Scala Network Project
+// Copyright (c) 2018-2021, The Anocoin Network Project
 // 
 // All rights reserved.
 // 
@@ -73,8 +73,8 @@
 #include "wallet_light_rpc.h"
 #include "wallet_rpc_helpers.h"
 
-#undef SCALA_DEFAULT_LOG_CATEGORY
-#define SCALA_DEFAULT_LOG_CATEGORY "wallet.wallet2"
+#undef ANOCOIN_DEFAULT_LOG_CATEGORY
+#define ANOCOIN_DEFAULT_LOG_CATEGORY "wallet.wallet2"
 
 #define THROW_ON_RPC_RESPONSE_ERROR(r, error, res, method, ...) \
   do { \
@@ -1140,7 +1140,7 @@ private:
     }
 
     BEGIN_SERIALIZE_OBJECT()
-      MAGIC_FIELD("scala wallet cache")
+      MAGIC_FIELD("anocoin wallet cache")
       VERSION_FIELD(0)
       FIELD(m_blockchain)
       FIELD(m_transfers)
